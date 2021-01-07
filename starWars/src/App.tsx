@@ -1,8 +1,10 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import {SafeAreaView} from 'react-native';
+import {Provider as StoreProvider} from 'react-redux';
 
 import NavContainer from './Navigation';
+import store from './store';
 
 const theme = {
   ...DefaultTheme,
@@ -18,9 +20,11 @@ const theme = {
 
 const App = () => {
   return (
-    <PaperProvider theme={theme}>
-      <NavContainer />
-    </PaperProvider>
+    <StoreProvider store={store}>
+      <PaperProvider theme={theme}>
+        <NavContainer />
+      </PaperProvider>
+    </StoreProvider>
   );
 };
 
