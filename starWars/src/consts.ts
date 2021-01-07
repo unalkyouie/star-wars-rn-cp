@@ -92,8 +92,8 @@ interface Element {
   fightingStat: number;
 }
 
-enum resource {
-  people = 'people',
-  starships = 'starships',
-  vahicles = 'vehicles',
+export enum resource {
+  people = 'people/',
+  starships = 'starships/',
+  vahicles = 'vehicles/',
 }
