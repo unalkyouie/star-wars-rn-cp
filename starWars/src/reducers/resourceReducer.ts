@@ -1,8 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {resource} from '../consts';
-
-// export const SET_RESOURCE = 'starWars/resourceReducer/SET_RESOURCE';
 
 export interface ResourceState {
   resourceValue: resource;
@@ -15,9 +13,9 @@ export const resourceSlice = createSlice({
   name: 'resource',
   initialState: INITIAL_STATE,
   reducers: {
-    setResource(state, action) {
-      const {resource} = action.payload;
-      state.resourceValue = resource;
+    setResource(state, action: PayloadAction<ResourceState>) {
+      const {resourceValue} = action.payload;
+      state.resourceValue = resourceValue;
     },
   },
 });

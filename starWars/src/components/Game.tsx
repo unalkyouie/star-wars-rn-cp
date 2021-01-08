@@ -1,24 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Surface, Text} from 'react-native-paper';
-import {useSelector} from 'react-redux';
 
-import {Person, resource} from '../consts';
+import {Fighter, resource} from '../consts';
 import Tile from '../components/Tile';
 import {getRandomElement} from '../utils/getRandomElement';
-import {AppState} from '../reducers';
 
-const Game = () => {
-  const resourceUrl = useSelector<AppState, resource>(
-    (state) => state.resource.resourceValue,
-  );
+const Game = (props: {resourceUrl: resource}) => {
   const [winner, setWinner] = useState('');
-  const [objectLeftData, setObjectLeftData] = useState<Person>({
+  const [objectLeftData, setObjectLeftData] = useState<Fighter>({
     name: '',
-    height: 0,
+    fightingStat: 0,
   });
-  const [objectRightData, setObjectRightData] = useState<Person>({
+  const [objectRightData, setObjectRightData] = useState<Fighter>({
     name: '',
-    height: 0,
+    fightingStat: 0,
   });
   const [pointsRight, setPointsRight] = useState(0);
   const [pointsLeft, setPointsLeft] = useState(0);
@@ -26,10 +21,18 @@ const Game = () => {
 
   const details = async () => {
     setWinner('');
-    const res1: Person = await getRandomElement(resourceUrl);
-    const res2: Person = await getRandomElement(resourceUrl);
-    setObjectLeftData(res1);
-    setObjectRightData(res2);
+    const res1 = await getRandomElement(props.resourceUrl);
+    const res2 = await getRandomElement(props.resourceUrl);
+    setObjectLeftData({
+      name: res1.name,
+      fightingStat:
+        props.resourceUrl === resource.people ? res1.height : res1.crew,
+    });
+    setObjectRightData({
+      name: res2.name,
+      fightingStat:
+        props.resourceUrl === resource.people ? res2.height : res2.crew,
+    });
     setIsFightFinished(false);
   };
 
@@ -38,10 +41,14 @@ const Game = () => {
   }, []);
 
   const countWinner = () => {
-    if (Number(objectLeftData.height) > Number(objectRightData.height)) {
+    if (
+      Number(objectLeftData.fightingStat) > Number(objectRightData.fightingStat)
+    ) {
       setWinner(objectLeftData.name);
       setPointsLeft((prev) => prev + 1);
-    } else if (Number(objectLeftData.height) < Number(objectRightData.height)) {
+    } else if (
+      Number(objectLeftData.fightingStat) < Number(objectRightData.fightingStat)
+    ) {
       setWinner(objectRightData.name);
       setPointsRight((prev) => prev + 1);
     } else {
@@ -59,14 +66,14 @@ const Game = () => {
           <Text style={{textAlign: 'center'}}>{pointsLeft}</Text>
           <Tile
             name={objectLeftData.name}
-            fightingStat={objectLeftData.height}
+            fightingStat={objectLeftData.fightingStat}
           />
         </Surface>
         <Surface style={{width: '50%'}}>
           <Text style={{textAlign: 'center'}}>{pointsRight}</Text>
           <Tile
             name={objectRightData.name}
-            fightingStat={objectRightData.height}
+            fightingStat={objectRightData.fightingStat}
           />
         </Surface>
       </Surface>

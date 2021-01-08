@@ -1,13 +1,19 @@
 import React from 'react';
-import {Surface, Text} from 'react-native-paper';
+import {Surface} from 'react-native-paper';
+import {useSelector} from 'react-redux';
 
 import Game from '../components/Game';
+import {resource} from '../consts';
+import {AppState} from '../reducers';
 
 const GameScreen = () => {
+  const resourceUrl = useSelector<AppState, resource>(
+    (state) => state.resource.resourceValue,
+  );
+
   return (
     <Surface>
-      <Text>Game</Text>
-      <Game />
+      <Game resourceUrl={resourceUrl} />
     </Surface>
   );
 };
