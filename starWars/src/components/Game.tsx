@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Surface, Text} from 'react-native-paper';
+import {ActivityIndicator, Button, Surface, Text} from 'react-native-paper';
 
 import {Fighter, resource} from '../consts';
 import Tile from '../components/Tile';
@@ -18,26 +18,36 @@ const Game = (props: {resourceUrl: resource}) => {
   const [pointsRight, setPointsRight] = useState(0);
   const [pointsLeft, setPointsLeft] = useState(0);
   const [isFightFinished, setIsFightFinished] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const details = async () => {
+  const setFighters = async () => {
     setWinner('');
-    const res1 = await getRandomElement(props.resourceUrl);
-    const res2 = await getRandomElement(props.resourceUrl);
-    setObjectLeftData({
-      name: res1.name,
-      fightingStat:
-        props.resourceUrl === resource.people ? res1.height : res1.crew,
-    });
-    setObjectRightData({
-      name: res2.name,
-      fightingStat:
-        props.resourceUrl === resource.people ? res2.height : res2.crew,
-    });
+    setIsLoading(true);
+
+    const res1 = await getFighterData();
+    const res2 = await getFighterData();
+    res1 &&
+      setObjectLeftData(() => {
+        return {
+          name: res1.name,
+          fightingStat: res1.height ? res1.height : res1.crew ? res1.crew : 0,
+        };
+      });
+    res2 &&
+      setObjectRightData({
+        name: res2.name,
+        fightingStat: res2.height ? res2.height : res2.crew ? res2.crew : 0,
+      });
     setIsFightFinished(false);
+    setIsLoading(false);
   };
 
+  const getFighterData = async () => {
+    const res = await getRandomElement(props.resourceUrl);
+    return res;
+  };
   useEffect(() => {
-    details();
+    setFighters();
   }, []);
 
   const countWinner = () => {
@@ -52,9 +62,7 @@ const Game = (props: {resourceUrl: resource}) => {
       setWinner(objectRightData.name);
       setPointsRight((prev) => prev + 1);
     } else {
-      setWinner(objectRightData.name);
-      setPointsRight((prev) => prev + 1);
-      setPointsLeft((prev) => prev + 1);
+      setWinner('DRAW');
     }
     setIsFightFinished(true);
   };
@@ -79,12 +87,26 @@ const Game = (props: {resourceUrl: resource}) => {
       </Surface>
       <Button
         mode="outlined"
-        onPress={isFightFinished ? () => details() : () => countWinner()}
+        onPress={isFightFinished ? () => setFighters() : () => countWinner()}
         uppercase
         style={{alignSelf: 'center', width: '50%'}}>
         {isFightFinished ? 'new game' : 'fight'}
       </Button>
       <Text>{winner.length > 0 && `Winner: ${winner}`}</Text>
+      {isLoading && (
+        <ActivityIndicator
+          style={{
+            alignItems: 'center',
+            bottom: 0,
+            justifyContent: 'center',
+            left: 0,
+            opacity: 1,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+          }}
+        />
+      )}
     </>
   );
 };

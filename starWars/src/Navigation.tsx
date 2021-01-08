@@ -7,7 +7,7 @@ import GameScreen from './screens/GameScreen';
 
 const Stack = createStackNavigator();
 
-const NavContainer = () => {
+const AppContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -17,4 +17,4 @@ const NavContainer = () => {
     </NavigationContainer>
   );
 };
-export default NavContainer;
+export default AppContainer;

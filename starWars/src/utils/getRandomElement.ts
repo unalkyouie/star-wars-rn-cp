@@ -1,10 +1,10 @@
-import {Person} from '../consts';
+import {Fighter} from '../consts';
 import {getData} from './getData';
 
 export const getRandomElement = async (url: string) => {
   const res = await getData(url);
-  const numberOfElements: number = await res.count;
+  const numberOfElements: number = await res.results.length;
   const elementIndex = Math.floor(Math.random() * numberOfElements);
-  const response: Person = await getData(`${url}${elementIndex}`);
-  return response;
+  const element: Fighter = await res.results[elementIndex];
+  return element;
 };
