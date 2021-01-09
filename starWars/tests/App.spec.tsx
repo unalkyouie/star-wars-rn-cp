@@ -1,12 +1,17 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {cleanup, render, waitFor} from '@testing-library/react-native';
 
 import App from '../src/App';
 
 describe('<App/>', () => {
-  it('should display Text', () => {
+  afterEach(() => {
+    cleanup();
+  });
+  it('should render HomeScreen as the default', async () => {
     const {getByText} = render(<App />);
-    const renderedText = getByText('This is RN App').children;
-    expect(renderedText).toHaveLength(1);
+    await waitFor(() => {
+      const HomeScreen = getByText('Home');
+      expect(HomeScreen).toBeTruthy();
+    });
   });
 });
