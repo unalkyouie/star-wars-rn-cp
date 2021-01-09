@@ -1,7 +1,9 @@
 import React from 'react';
 import {Card, Title, Paragraph} from 'react-native-paper';
 
-const Tile = (props: {name: string; fightingStat: number}) => {
+import {Fighter} from '../consts';
+
+const Tile = (props: {fighter: Fighter; points: number}) => {
   return (
     <Card
       style={{
@@ -11,9 +13,10 @@ const Tile = (props: {name: string; fightingStat: number}) => {
         height: 200,
       }}>
       <Card.Content style={{alignItems: 'center', justifyContent: 'center'}}>
-        <Title style={{textAlign: 'center'}}>{props.name}</Title>
+        <Paragraph style={{textAlign: 'center'}}>{props.points}</Paragraph>
+        <Title style={{textAlign: 'center'}}>{props.fighter.name}</Title>
         <Paragraph style={{textAlign: 'center'}}>
-          {props.fightingStat}
+          {props.fighter.fightingStat}
         </Paragraph>
       </Card.Content>
     </Card>
