@@ -1,3 +1,5 @@
+import {URLResponse} from '../consts';
+
 const BASE_URL = 'https://swapi.dev/api/';
 
 export const getData = async (url: string) => {
@@ -9,7 +11,7 @@ export const getData = async (url: string) => {
         'Content-Type': 'application/json',
       },
     });
-    const response = await res.json();
+    const response: URLResponse = await res.json();
     return response;
   } catch (error) {
     throw new Error(`Unable to connect, please try again`);

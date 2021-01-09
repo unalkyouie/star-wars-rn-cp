@@ -1,15 +1,16 @@
 import {cleanup} from '@testing-library/react-native';
 
+import {URLResponse} from '../src/consts';
 import {getData} from '../src/utils/getData';
 
-const fakeRes = {
+const fakeRes: URLResponse = {
   count: 1,
   next: null,
   previous: null,
   results: [
     {
       name: 'R2-D2',
-      mass: '32',
+      fightingStat: 32,
     },
   ],
 };

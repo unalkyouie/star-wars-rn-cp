@@ -10,3 +10,10 @@ export enum resource {
   starships = 'starships/',
   vahicles = 'vehicles/',
 }
+
+export interface URLResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Fighter[];
+}
