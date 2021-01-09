@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Surface, Text} from 'react-native-paper';
 
 import {Fighter} from '../consts';

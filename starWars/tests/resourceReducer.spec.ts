@@ -3,6 +3,7 @@ import reducer, {
   ResourceState,
 } from '../src/reducers/resourceReducer';
 import {resource} from '../src/consts';
+import {cleanup} from '@testing-library/react-native';
 
 const initialState: ResourceState = {
   resourceValue: resource.people,
@@ -18,7 +19,6 @@ describe('resourceReducer', () => {
   });
   it('should return new state after dispatching resourceSlice', () => {
     const action = resourceSlice.actions.setResource(resource.starships);
-    const newState = reducer(initialState, action);
-    expect(newState.resourceValue).toBe(action.payload);
+    expect(action.payload).toBe(resource.starships);
   });
 });

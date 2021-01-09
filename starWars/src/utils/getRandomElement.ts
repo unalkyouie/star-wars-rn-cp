@@ -1,5 +1,4 @@
 import {Fighter, URLResponse} from '../consts';
-import {getData} from './getData';
 
 export const getRandomElement = (response: URLResponse) => {
   const numberOfElements: number = response.results.length;

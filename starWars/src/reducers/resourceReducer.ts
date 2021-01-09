@@ -14,7 +14,8 @@ export const resourceSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     setResource(state, action) {
-      state.resourceValue = action.payload;
+      const {resourceValue} = action.payload;
+      state.resourceValue = resourceValue;
     },
   },
 });
